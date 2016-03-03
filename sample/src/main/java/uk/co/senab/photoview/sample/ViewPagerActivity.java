@@ -15,8 +15,8 @@
  *******************************************************************************/
 package uk.co.senab.photoview.sample;
 
-import uk.co.senab.photoview.PhotoView;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -27,6 +27,10 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+
+import com.bumptech.glide.Glide;
+
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Lock/Unlock button is added to the ActionBar.
@@ -42,13 +46,15 @@ public class ViewPagerActivity extends Activity {
 	
 	private ViewPager mViewPager;
 	private MenuItem menuLockItem;
+    static Context context;
 	
     @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context =this;
         setContentView(R.layout.activity_view_pager);
         mViewPager = (HackyViewPager) findViewById(R.id.view_pager);
-		setContentView(mViewPager);
+		//setContentView(mViewPager);
 
 		mViewPager.setAdapter(new SamplePagerAdapter());
 		
@@ -60,7 +66,7 @@ public class ViewPagerActivity extends Activity {
 
 	static class SamplePagerAdapter extends PagerAdapter {
 
-		private static final int[] sDrawables = { R.drawable.wallpaper, R.drawable.wallpaper, R.drawable.wallpaper,
+		private static final int[] sDrawables = { R.drawable.mm, R.drawable.wallpaper, R.drawable.wallpaper,
 				R.drawable.wallpaper, R.drawable.wallpaper, R.drawable.wallpaper };
 
 		@Override
@@ -71,10 +77,12 @@ public class ViewPagerActivity extends Activity {
 		@Override
 		public View instantiateItem(ViewGroup container, int position) {
 			PhotoView photoView = new PhotoView(container.getContext());
-			photoView.setImageResource(sDrawables[position]);
-
+			//photoView.setImageResource(sDrawables[position]);
+			Glide.with(context)
+					.load("http://desk.fd.zol-img.com.cn/g5/M00/02/0F/ChMkJ1bK8SKIKxe_AAA5MNHDqQ0AALKtADpf2AAADlI130.jpg")
+					.into(photoView);
 			// Now just add PhotoView to ViewPager and return it
-			container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			container.addView(photoView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 
 			return photoView;
 		}
